@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: goserver-service
+spec:
+#Seleciona todos os pods da aplicação com esse nome, aqui indicamos o nome do pod que queremos
+# Que é indicado no spec: selector: app: nome_do_deployment_que_e_do_pod
+#Pega todos os pods que a matchlabel estiver com o nome
+# no caso, vai pegar todos os pods que tem o 
+#    matchLabels:
+#       app: goserver
+  selector:
+    app: goserver
+  type: ClusterIP
+  ports:
+  - name: goserver-service
+    port: 8005
+    targetPort: 8000
+    protocol: TCP

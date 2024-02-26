@@ -1,0 +1,15 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: "goserver"
+  labels:
+   app: "goserver"
+spec:
+  containers:
+  - name: goserver
+    image: "waanvieira/go:latest"
+    # args:
+    # - "-text=foo"
+    # ports:
+    # - containerPort: 5678
+    #   hostPort: 80

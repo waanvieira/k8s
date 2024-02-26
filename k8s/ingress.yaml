@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-host
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+# Regras de acesso, os host permitidos e seus redirecionamentos
+  rules:
+# QUando acessar esse host vai ser aceito e redirecinado para o path admin
+  - host: "ingress.fullcycle.com.br"
+    http:
+      paths:
+      #Prefixo seria o sub domain se acessar por exemplo enreco.com.br/admin vai acessar o 
+      # micro serviço de admin
+      #Prefixo seria o sub domain se acessar por exemplo enreco.com.br/catalog vai acessar o 
+      # micro servico de catalogo
+      - pathType: Prefix
+        path: "/admin"
+    # Aqui seleciona para qual serviçoo (nesse caso, para qual microserviço vai ser redirecionado)
+        backend:
+        # nome do seriço, referenciado no nosso service, aqui é o nome do nosso service
+          service:
+            name: goserver-service
+            port:
+              number: 80
+        ### Forma antiga
+          # serviceName: goserver-service
+          #Porta do micro serviço
+          # servicePort: 80
+  tls:
+  - hosts:
+    - "ingress.fullcycle.com.br"
+    secretName: letsencrypt-tls
+ 
